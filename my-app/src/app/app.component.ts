@@ -3,6 +3,7 @@ import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 
 interface Location {
   value: string;
+  total: number;
   people: number;
 }
 
@@ -14,13 +15,11 @@ interface Location {
 
 
 export class AppComponent implements OnInit{
-  title = 'CROWD';
   selectedLocation: Location;
   selectedLocationID: number;
 
   tempcrowdedness: number = 0;
-  timeStart; timeEnd;
-  data: Location[];
+  data;
 
   dbRef: AngularFireList<any>;
   @ViewChild('locSelection') locSelection;
@@ -38,6 +37,7 @@ export class AppComponent implements OnInit{
     this.dbRef = this.db.list("Locations");
     this.dbRef.valueChanges().subscribe((data) => {
       this.data = data;
+      console.log(this.data);
       this.locSelection.value = this.data[this.selectedLocationID];
       this.selectedLocation = this.locSelection.value;
       this.tempcrowdedness = this.selectedLocation.people;
