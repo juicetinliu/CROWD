@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "crowd-fe725": {
+      "hosting": {
+        "my-app": [
+          "crowd-fe725"
+        ]
+      }
+    }
+  }
+}
