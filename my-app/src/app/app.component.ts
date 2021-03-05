@@ -64,8 +64,12 @@ export class AppComponent implements OnInit{
   }
 
   resetCrowdAmount(): void{
-    this.tempcrowdedness = 0;
-    // this.data[this.selectedLocationID].people = 0;
-    this.dbRef.update(String(this.selectedLocationID), { people: this.tempcrowdedness });
+    if (this.tempcrowdedness == this.selectedLocation.people){
+      this.tempcrowdedness = 0;
+      // this.data[this.selectedLocationID].people = 0;
+      this.dbRef.update(String(this.selectedLocationID), { people: this.tempcrowdedness });
+    }else{
+      this.tempcrowdedness = this.selectedLocation.people;
+    }
   }
 }
