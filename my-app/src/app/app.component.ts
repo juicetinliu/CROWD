@@ -19,6 +19,7 @@ export class AppComponent implements OnInit{
   selectedLocationID: number;
 
   tempcrowdedness: number = 0;
+  tempmaxamount: number = 0;
   data;
 
   dbRef: AngularFireList<any>;
@@ -29,11 +30,12 @@ export class AppComponent implements OnInit{
 
   ngOnInit() {
     this.data = [
-      {value: "", people: 0}
+      {value: "", people: 0, total: 0}
     ];
     this.selectedLocation = this.data[0];
     this.selectedLocationID = 0;
     this.tempcrowdedness = this.selectedLocation.people;
+    this.tempmaxamount = this.selectedLocation.total;
     this.dbRef = this.db.list("Locations");
     this.dbRef.valueChanges().subscribe((data) => {
       this.data = data;
@@ -41,6 +43,7 @@ export class AppComponent implements OnInit{
       this.locSelection.value = this.data[this.selectedLocationID];
       this.selectedLocation = this.locSelection.value;
       this.tempcrowdedness = this.selectedLocation.people;
+      this.tempmaxamount = this.selectedLocation.total;
     });
   }
 
@@ -48,10 +51,11 @@ export class AppComponent implements OnInit{
     this.selectedLocation = this.locSelection.value;
     this.selectedLocationID = this.data.findIndex(loc => loc.value == this.selectedLocation.value);
     this.tempcrowdedness = this.selectedLocation.people;
+    this.tempmaxamount = this.selectedLocation.total;
   }
 
   increaseCrowdAmount(): void{
-    this.tempcrowdedness += 1;
+    this.tempcrowdedness = Math.min(this.tempcrowdedness + 1, this.selectedLocation.total);
   }
 
   decreaseCrowdAmount(): void{
@@ -71,5 +75,18 @@ export class AppComponent implements OnInit{
     }else{
       this.tempcrowdedness = this.selectedLocation.people;
     }
+  }
+
+  increaseMaxAmount(): void{
+    this.tempmaxamount += 1;
+  }
+
+  decreaseMaxAmount(): void{
+    this.tempmaxamount = Math.max(this.tempmaxamount - 1, this.selectedLocation.people);
+  }
+
+  confirmMaxAmount(): void{
+    this.dbRef.update(String(this.selectedLocationID), { total: this.tempmaxamount });
+    // this.data[this.selectedLocationID].people = this.tempcrowdedness;
   }
 }

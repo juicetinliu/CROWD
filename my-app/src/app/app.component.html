@@ -12,10 +12,12 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-card-subtitle>Current number of people: {{ selectedLocation.people }}</mat-card-subtitle>
+      <mat-card-subtitle>CURRENT Number of People: {{ selectedLocation.people }}</mat-card-subtitle>
+      <mat-card-subtitle>MAXIMUM Number of People: {{ selectedLocation.total }}</mat-card-subtitle>
     </div>
 
-    <mat-card class="spaced-card">
+    <mat-card class="spaced-card text-center">
+      Update CURRENT:
       <div class="container-row">
         <div class="button-container">
           <button mat-mini-fab color="primary" aria-label="Example icon button with a bookmark icon" (click)="decreaseCrowdAmount()">
@@ -37,6 +39,29 @@
         </div>
         <div class="button-container">
           <button mat-raised-button color="warn" (click)="resetCrowdAmount()">RESET</button>
+        </div>
+      </div>
+    </mat-card>
+    <mat-card class="spaced-card text-center">
+      Update MAX:
+      <div class="container-row">
+        <div class="button-container">
+          <button mat-mini-fab color="primary" aria-label="Example icon button with a bookmark icon" (click)="decreaseMaxAmount()">
+            <mat-icon>remove</mat-icon>
+          </button>
+        </div>
+        <mat-card class="dark-card">
+            <div>{{ tempmaxamount }}</div>
+        </mat-card>
+        <div class="button-container">
+          <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon" (click)="increaseMaxAmount()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div class="container-row">
+        <div class="button-container">
+          <button mat-raised-button color="primary" (click)="confirmMaxAmount()">UPDATE</button>
         </div>
       </div>
     </mat-card>
